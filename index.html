@@ -1,39 +1,105 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Victor's Page</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/style.css">
-    </head>
-    <body>
-        <div class="container profile">
-            <div class="row">
-                <div class="col">
-    
-                </div>
-                <div class="col-3">
-                    <img src="images/me.jpg" alt="Me" class="img-thumbnail rounded-circle">
-                    <h3>
-                        <div style="text-align: center; padding-top: 10px">I'm working on it ;)</div>
-                    </h3>
-                </div>
-                <div class="col">
+<html class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Victor's Page</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="pt-4">
+        <h1 class="text-center title">Victor Lopes</h1>
+        <h3 class="text-center title">&lt;FrontendDeveloper /&gt;</h3>
+      </div>
 
-                </div>
-            </div>
+      <!-- Skill Progress -->
+      <div class="pt-4 mt-4">
+        <h4 class="text-center">Main Skills</h4>
+        <div class="container pt-4 row mx-auto" id="progress"></div>
+      </div>
+
+      <hr />
+
+      <div class="row pt-4 pb-4">
+        <div class="col d-flex justify-content-center">
+          <a href="https://www.linkedin.com/in/vrlopes"><i class="fab fa-2x fa-linkedin-in px-2"></i></a>
+          <a href="https://github.com/VictorLopes"><i class="fab fa-2x fa-github px-2"></i></a>
         </div>
-        
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-        
-        <script src="js/bootstrap.min.js" async defer></script>
-    </body>
+      </div>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./scripts/jquery-circle-progress.js"></script>
+    <script>
+      const progress = [
+        { class: "react", fill: 80 },
+        { class: "react-native", fill: 70 },
+        { class: "vue", fill: 60 },
+        { class: "html", fill: 80 },
+        { class: "css", fill: 75 },
+        { class: "java-script", fill: 100 },
+        { class: "type-script", fill: 70 },
+      ];
+
+      progress.forEach((itemProgress) => {
+        // Changes text to CamelCase
+        const title = itemProgress.class
+          .split("-")
+          .map(
+            (stext) =>
+              `${stext[0].toUpperCase()}${stext.slice(1, stext.length)}`
+          )
+          .join("");
+        $("#progress").append(
+          `<div class="col d-flex justify-content-center">
+            <div class="${itemProgress.class} circle"><strong></strong><span>${title}</span></div>
+           </div>`
+        );
+        $(`.${itemProgress.class}.circle`)
+          .circleProgress({
+            value: itemProgress.fill / 100,
+            fill: {
+              gradient: ["#ff5858", "#f09819"],
+            },
+          })
+          .on("circle-animation-progress", function (event, progress) {
+            $(this)
+              .find("strong")
+              .html(parseInt(itemProgress.fill * progress) + "<i>%</i>");
+          });
+      });
+    </script>
+  </body>
 </html>
