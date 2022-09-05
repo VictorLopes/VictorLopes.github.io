@@ -25,15 +25,25 @@
   </head>
   <body>
     <div class="container">
-      <div class="pt-4">
+
+      <div class="my-4 d-flex justify-content-center"">
+        <img 
+          src="./images/me.jpeg" 
+          alt="me" 
+          class="img-thumbnail rounded-circle"
+          width="200"
+        />
+      </div>
+
+      <div class="pt-4 mt-4">
         <h1 class="text-center title">Victor Lopes</h1>
-        <h3 class="text-center title">&lt;FrontendDeveloper /&gt;</h3>
+        <h3 class="text-center title">&lt;Developer /&gt;</h3>
       </div>
 
       <!-- Skill Progress -->
       <div class="pt-4 mt-4">
         <h4 class="text-center">Main Skills</h4>
-        <div class="container pt-4 row mx-auto" id="progress"></div>
+        <div class="container pt-4 row" id="progress"></div>
       </div>
 
       <hr />
@@ -64,13 +74,13 @@
     <script src="./scripts/jquery-circle-progress.js"></script>
     <script>
       const progress = [
-        { class: "react", fill: 80 },
+        { class: "react", fill: 85 },
         { class: "react-native", fill: 70 },
         { class: "vue", fill: 60 },
-        { class: "html", fill: 80 },
-        { class: "css", fill: 75 },
+        { class: "html", fill: 90 },
+        { class: "css", fill: 80 },
         { class: "java-script", fill: 100 },
-        { class: "type-script", fill: 70 },
+        { class: "type-script", fill: 80 },
       ];
 
       progress.forEach((itemProgress) => {
