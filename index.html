@@ -23,7 +23,7 @@
     />
     <link rel="stylesheet" href="./css/style.css" />
     
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YY5XEK41RE"></script>
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-YY5XEK41RE"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -42,7 +42,7 @@
           r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
           a.appendChild(r);
       })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-    </script>
+    </script> -->
   </head>
   <body>
     <div class="container">
@@ -61,22 +61,31 @@
       </div>
 
       <!-- Skill Progress -->
-      <div class="pt-4 mt-4">
+      <div class="container fluid pt-4 mt-4 d-flex flex-column align-items-center">
         <h4 class="text-center">Main Skills</h4>
+
         <div class="container pt-4 row" id="progress"></div>
       </div>
 
       <hr />
 
       <div class="row pt-4 pb-4">
-        <div class="col d-flex justify-content-center">
+        <div class="col-12 d-flex justify-content-center">
           <a href="https://www.linkedin.com/in/vrlopes"><i class="fab fa-2x fa-linkedin-in px-2"></i></a>
           <a href="https://github.com/VictorLopes"><i class="fab fa-2x fa-github px-2"></i></a>
+        </div>
+        <div class="col-12 d-flex justify-content-center">
+          <a href="./privacy.html">Cookie privacy</a>
         </div>
       </div>
     </div>
 
     <div class="privacy-alert">
+      <div class="close">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+          <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+        </svg>
+      </div>
       I use cookies to provide you with a better experience and for study purpose. By continuing to use my website you accept the <a href="./privacy.html">cookie privacy</a>
     </div>
 
@@ -97,43 +106,54 @@
     ></script>
     <script src="./scripts/jquery-circle-progress.js"></script>
     <script>
-      const progress = [
-        { class: "react", fill: 85 },
-        { class: "react-native", fill: 70 },
-        { class: "vue", fill: 60 },
-        { class: "html", fill: 90 },
-        { class: "css", fill: 80 },
-        { class: "java-script", fill: 100 },
-        { class: "type-script", fill: 80 },
-      ];
-
-      progress.forEach((itemProgress) => {
-        // Changes text to CamelCase
-        const title = itemProgress.class
-          .split("-")
-          .map(
-            (stext) =>
-              `${stext[0].toUpperCase()}${stext.slice(1, stext.length)}`
-          )
-          .join("");
-        $("#progress").append(
-          `<div class="col d-flex justify-content-center">
-            <div class="${itemProgress.class} circle"><strong></strong><span>${title}</span></div>
-           </div>`
-        );
-        $(`.${itemProgress.class}.circle`)
-          .circleProgress({
-            value: itemProgress.fill / 100,
-            fill: {
-              gradient: ["#ff5858", "#f09819"],
-            },
-          })
-          .on("circle-animation-progress", function (event, progress) {
-            $(this)
-              .find("strong")
-              .html(parseInt(itemProgress.fill * progress) + "<i>%</i>");
+      (() => {
+        const progress = [
+          { class: "java-script", fill: 100 },
+          { class: "type-script", fill: 100 },
+          { class: "react", fill: 90 },
+          { class: "html", fill: 90 },
+          { class: "git", fill: 90 },
+          { class: "css", fill: 80 },
+          { class: "react-native", fill: 70 },
+          { class: "vue", fill: 60 },
+        ];
+  
+        progress.forEach((itemProgress) => {
+          // Changes text to CamelCase
+          const title = itemProgress.class
+            .split("-")
+            .map(
+              (stext) =>
+                `${stext[0].toUpperCase()}${stext.slice(1, stext.length)}`
+            )
+            .join("");
+          $("#progress").append(
+            `<div class="col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center">
+              <div class="${itemProgress.class} circle"><strong></strong><span>${title}</span></div>
+             </div>`
+          );
+          $(`.${itemProgress.class}.circle`)
+            .circleProgress({
+              value: itemProgress.fill / 100,
+              fill: {
+                gradient: ["#ff5858", "#f09819"],
+              },
+            })
+            .on("circle-animation-progress", function (event, progress) {
+              $(this)
+                .find("strong")
+                .html(parseInt(itemProgress.fill * progress) + "<i>%</i>");
+            });
+        });
+  
+        if ( !localStorage.getItem('closed-cookie') ) {
+          $('.privacy-alert').show();
+          $('.privacy-alert > .close').on('click', function() {
+            $('.privacy-alert').hide();
+            localStorage.setItem('closed-cookie', true);
           });
-      });
+        }
+      })();
     </script>
   </body>
 </html>

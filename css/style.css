@@ -58,15 +58,28 @@ a:hover {
 }
 
 .privacy-alert {
+  display: none;
   position: fixed;
   bottom: 0;
   left: 0;
   text-align: center;
-  background-color: rgba(39, 39, 39, 0.8);
+  background-color: rgba(39, 39, 39, 0.7);
   width: 100%;
-  padding: 8px;
+  padding: 16px;
 }
 
 .privacy-alert a {
-  color: rgba(58, 157, 181, 0.8);
+  color: rgb(58, 157, 181);
+}
+
+.privacy-alert .close {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ff0040;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  color: #fff;
 }
