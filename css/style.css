@@ -51,6 +51,22 @@ body {
   margin-top: 12px;
 }
 
-a, a.visited, a:hover {
+a,
+a.visited,
+a:hover {
   color: #fff;
+}
+
+.privacy-alert {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  background-color: rgba(39, 39, 39, 0.8);
+  width: 100%;
+  padding: 8px;
+}
+
+.privacy-alert a {
+  color: rgba(58, 157, 181, 0.8);
 }
