@@ -45,7 +45,7 @@ $.circleProgress = {
        *     - { color: 'lime', image: 'http://i.imgur.com/pT0i89v.png' } - color displayed until the image is loaded
        */
       fill: {
-          gradient: ['#3aeabb', '#fdd250']
+          gradient: ['#F2994A', '#F2C94C']
       },
 
       /**
