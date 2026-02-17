@@ -1,19 +1,94 @@
 html {
   height: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
   font-family: "Merriweather Sans", sans-serif;
   font-weight: 600;
-}
-
-body {
   height: 100%;
   margin: 0;
-  background-repeat: no-repeat;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
   background-attachment: fixed;
-  background-image: linear-gradient(60deg, #cb356b 0%, #bd3f32 100%);
-  color: white;
+  color: #2d3748;
+  overflow-x: hidden;
+}
+
+/* Header/Profile Section */
+.profile-section {
+  padding: 3rem 0;
+  animation: fadeInDown 0.8s ease-out;
+}
+
+.profile-image-container {
+  position: relative;
+  display: inline-block;
+  animation: scaleIn 0.6s ease-out;
+}
+
+.profile-image-container::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: linear-gradient(45deg, #667eea, #764ba2, #f093fb);
+  border-radius: 50%;
+  z-index: -1;
+  animation: rotate 3s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.profile-image {
+  border: 4px solid rgba(255, 255, 255, 0.9) !important;
+  box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 15px 50px rgba(102, 126, 234, 0.4);
+}
+
+.title {
+  color: #2d3748;
+  text-shadow: none;
+  animation: fadeIn 1s ease-out;
+  font-weight: 700;
+}
+
+
+/* Skills Section */
+.skills-section {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 3rem 2rem;
+  margin: 3rem 0;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  animation: slideUp 0.8s ease-out;
+}
+
+.skills-section h4 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
 }
 
 .circle {
@@ -23,10 +98,16 @@ body {
   position: relative;
   text-align: center;
   line-height: 1.2;
+  transition: transform 0.3s ease;
+}
+
+.circle:hover {
+  transform: translateY(-10px);
 }
 
 .circle canvas {
   vertical-align: top;
+  filter: drop-shadow(0 4px 12px rgba(102, 126, 234, 0.2));
 }
 
 .circle strong {
@@ -37,6 +118,8 @@ body {
   text-align: center;
   line-height: 40px;
   font-size: 30px;
+  color: #2d3748;
+  font-weight: 700;
 }
 
 .circle strong i {
@@ -47,34 +130,228 @@ body {
 
 .circle span {
   display: block;
-  color: #fff;
+  color: #4a5568;
   margin-top: 12px;
+  font-weight: 600;
 }
 
+/* Portfolio Section */
+.portfolio-section {
+  padding: 3rem 0;
+  animation: fadeIn 1s ease-out 0.3s backwards;
+}
+
+.portfolio-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  text-align: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  font-weight: 700;
+}
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 1rem 0;
+}
+
+.portfolio-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  animation: slideUp 0.6s ease-out;
+}
+
+.portfolio-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.portfolio-card:hover::before {
+  left: 100%;
+}
+
+.portfolio-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 50px rgba(102, 126, 234, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+.portfolio-card h3 {
+  color: #2d3748;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.portfolio-card p {
+  color: #4a5568;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.portfolio-card .btn-view {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  text-decoration: none;
+  border-radius: 25px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: none;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.portfolio-card .btn-view:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Game Section */
+.game {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  margin: 3rem 0;
+  padding: 2rem;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  animation: fadeIn 1s ease-out 0.5s backwards;
+}
+
+.game span {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.game a {
+  font-weight: 600;
+  font-size: 48px;
+  background: linear-gradient(90deg, #FFFFFF, #00A8FF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.game a:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 10px rgba(0, 168, 255, 0.8));
+}
+
+/* Social Links */
+.social-section {
+  padding: 2rem 0;
+  animation: fadeIn 1s ease-out 0.6s backwards;
+}
+
+.social-section a {
+  color: #667eea;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.social-section a:hover {
+  color: #764ba2;
+  transform: translateY(-5px);
+  filter: drop-shadow(0 5px 10px rgba(102, 126, 234, 0.4));
+}
+
+/* Divider */
+hr {
+  border: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.2), transparent);
+  margin: 3rem 0;
+}
+
+/* Links */
 a,
 a.visited,
 a:hover {
   color: #fff;
 }
 
-.game {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  align-items: center;
-  margin-top: 12px;
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
-.game a {
-  font-weight: 600;
-  font-size: 48px;
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Form styles (keeping existing) */
 .scores {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  color: #f2994a;
+  color: #00A8FF;
 }
 
 .scores strong {
@@ -85,37 +362,61 @@ input {
   width: 100%;
   padding: 10px 15px;
   font-size: 16px;
-  border: 2px solid #f2994a;
+  border: 2px solid #00A8FF;
   border-radius: 25px;
   outline: none;
   transition: all 0.3s ease;
   margin-top: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+input:focus {
+  border-color: #0066FF;
+  box-shadow: 0 0 10px rgba(0, 168, 255, 0.5);
 }
 
 .send-button {
   width: 100%;
-  background-color: #4caf50; /* Green background */
-  color: white; /* White text */
-  border: #f2994a; /* Remove border */
-  padding: 12px 24px; /* Add padding */
-  font-size: 16px; /* Font size */
-  border-radius: 24px; /* Rounded corners */
-  cursor: pointer; /* Pointer cursor on hover */
-  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth effects */
+  background: linear-gradient(135deg, #0066FF, #00A8FF);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
 }
 
 .send-button:hover {
-  background-color: #45a049; /* Darker green on hover */
-  transform: scale(1.05); /* Slightly enlarge on hover */
+  background: linear-gradient(135deg, #00A8FF, #0066FF);
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 168, 255, 0.5);
 }
 
 .send-button:active {
-  background-color: #3e8e41; /* Even darker green when clicked */
-  transform: scale(0.95); /* Slightly shrink on click */
+  transform: scale(0.95);
 }
 
 .form {
   display: flex;
   flex-direction: column;
   gap: 4px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .game a {
+    font-size: 32px;
+  }
+
+  .portfolio-section h2,
+  .skills-section h4 {
+    font-size: 1.8rem;
+  }
 }
