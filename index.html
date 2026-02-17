@@ -63,7 +63,7 @@
         <!-- Skill Progress -->
         <div class="skills-section">
             <h4 class="text-center">Main Skills</h4>
-            <div class="container pt-4 row" id="progress"></div>
+            <div class="skills-grid" id="skills-grid"></div>
         </div>
 
         <!-- Portfolio Section -->
@@ -94,71 +94,53 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-    <script src="./scripts/jquery-circle-progress.js"></script>
     <script>
         (() => {
-            const progress = [{
-                class: "java-script",
-                fill: 100
-            },
-            {
-                class: "type-script",
-                fill: 100
-            },
-            {
-                class: "react",
-                fill: 90
-            },
-            {
-                class: "html",
-                fill: 90
-            },
-            {
-                class: "git",
-                fill: 90
-            },
-            {
-                class: "CSS",
-                fill: 80
-            },
-            {
-                class: "react-native",
-                fill: 70
-            },
-            {
-                class: "vue",
-                fill: 60
-            },
+            const skills = [
+                { name: "JavaScript", level: 100 },
+                { name: "TypeScript", level: 100 },
+                { name: "React", level: 90 },
+                { name: "HTML", level: 90 },
+                { name: "Git", level: 90 },
+                { name: "CSS", level: 80 },
+                { name: "Docker", level: 80 },
+                { name: "MySQL", level: 75 },
+                { name: "PostgreSQL", level: 75 },
+                { name: "React Native", level: 70 },
+                { name: "Redis", level: 70 },
+                { name: "PHP", level: 65 },
+                { name: "Java", level: 65 },
+                { name: "Go", level: 60 },
+                { name: "Vue", level: 60 }
             ];
 
-            progress.forEach((itemProgress) => {
-                // Changes text to CamelCase
-                const title = itemProgress.class
-                    .split("-")
-                    .map(
-                        (stext) =>
-                            `${stext[0].toUpperCase()}${stext.slice(1, stext.length)}`
-                    )
-                    .join("");
-                $("#progress").append(
-                    `<div class="col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center">
-              <div class="${itemProgress.class} circle"><strong></strong><span>${title}</span></div>
-             </div>`
-                );
-                $(`.${itemProgress.class}.circle`)
-                    .circleProgress({
-                        value: itemProgress.fill / 100,
-                        fill: {
-                            gradient: ["#667eea", "#764ba2"],
-                        },
-                    })
-                    .on("circle-animation-progress", function (event, progress) {
-                        $(this)
-                            .find("strong")
-                            .html(parseInt(itemProgress.fill * progress) + "<i>%</i>");
-                    });
+            const container = document.getElementById('skills-grid');
+
+            skills.forEach((skill, index) => {
+                const skillItem = document.createElement('div');
+                skillItem.className = 'skill-item';
+                skillItem.style.animationDelay = `${index * 0.1}s`;
+
+                skillItem.innerHTML = `
+                    <div class="skill-name">
+                        <span>${skill.name}</span>
+                        <span class="skill-percentage">${skill.level}%</span>
+                    </div>
+                    <div class="skill-bar-container">
+                        <div class="skill-bar" data-level="${skill.level}"></div>
+                    </div>
+                `;
+
+                container.appendChild(skillItem);
             });
 
+            // Animate bars on load
+            setTimeout(() => {
+                document.querySelectorAll('.skill-bar').forEach(bar => {
+                    const level = bar.getAttribute('data-level');
+                    bar.style.width = level + '%';
+                });
+            }, 100);
         })();
     </script>
     <script src="./scripts/portfolio-loader.js"></script>
