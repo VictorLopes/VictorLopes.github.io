@@ -2,24 +2,23 @@
     // Portfolio projects configuration
     const portfolioProjects = [
         {
+            name: "Wout",
+            url: "https://wout.fit",
+            description: "A premium workout and fitness tracking platform. Built with a focus on user experience, performance, and scalability.",
+            tags: ["React Native", "Expo", "TypeScript", "Gluestack UI", "PostgreSQL", "Redis", "Docker", "Go Lang"]
+        },
+        {
             name: "Example Product Page",
             folder: "example-product-page",
             description: "A modern, responsive product showcase page with dynamic features and smooth animations.",
             tags: ["HTML", "CSS", "JavaScript"]
         }
-        // Add more projects here as they are added to the portfolio folder
-        // {
-        //     name: "Project Name",
-        //     folder: "folder-name",
-        //     description: "Project description",
-        //     tags: ["Tech1", "Tech2"]
-        // }
     ];
 
     // Generate portfolio cards
     function loadPortfolio() {
         const container = document.getElementById('portfolio-grid');
-        
+
         if (!container) {
             console.error('Portfolio grid container not found');
             return;
@@ -29,9 +28,9 @@
             const card = document.createElement('div');
             card.className = 'portfolio-card';
             card.style.animationDelay = `${index * 0.1}s`;
-            
-            const projectUrl = `./portfolio/${project.folder}/index.html`;
-            
+
+            const projectUrl = project.url || `./portfolio/${project.folder}/index.html`;
+
             card.innerHTML = `
                 <h3>${project.name}</h3>
                 <p>${project.description}</p>
@@ -42,7 +41,7 @@
                     <i class="fas fa-external-link-alt"></i> View Project
                 </a>
             `;
-            
+
             // Make entire card clickable
             card.addEventListener('click', (e) => {
                 // Don't trigger if clicking the button directly
@@ -50,7 +49,7 @@
                     window.open(projectUrl, '_blank');
                 }
             });
-            
+
             container.appendChild(card);
         });
     }
