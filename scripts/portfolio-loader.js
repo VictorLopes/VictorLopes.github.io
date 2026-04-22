@@ -8,6 +8,12 @@
             tags: ["React Native", "Expo", "TypeScript", "Gluestack UI", "PostgreSQL", "Redis", "Docker", "Go Lang"]
         },
         {
+            name: "Prompt2Course",
+            url: "https://github.com/VictorLopes/Prompt2Course",
+            description: "Audio language lesson generator (MP3) inspired by the Pimsleur methodology. Use AI to create custom dialogues and transform them into interactive lessons with spaced repetition.",
+            tags: ["Python", "AI", "NLP", "Language Learning", "TTS", "Spaced Repetition"]
+        },
+        {
             name: "Example Product Page",
             folder: "example-product-page",
             description: "A modern, responsive product showcase page with dynamic features and smooth animations.",
@@ -37,9 +43,11 @@
                 ${project.tags ? `<div class="portfolio-tags" style="margin-bottom: 1rem;">
                     ${project.tags.map(tag => `<span style="display: inline-block; padding: 0.25rem 0.75rem; background: rgba(0, 168, 255, 0.2); border-radius: 15px; font-size: 0.9rem; margin-right: 0.5rem; margin-bottom: 0.5rem;">${tag}</span>`).join('')}
                 </div>` : ''}
-                <a href="${projectUrl}" class="btn-view" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt"></i> View Project
-                </a>
+                <div style="margin-top: auto; padding-top: 1rem;">
+                    <a href="${projectUrl}" class="btn-view" target="_blank" rel="noopener">
+                        <i class="fas fa-external-link-alt"></i> View Project
+                    </a>
+                </div>
             `;
 
             // Make entire card clickable

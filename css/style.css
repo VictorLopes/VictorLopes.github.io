@@ -240,6 +240,8 @@ body {
   position: relative;
   overflow: hidden;
   animation: slideUp 0.6s ease-out;
+  display: flex;
+  flex-direction: column;
 }
 
 .portfolio-card::before {
