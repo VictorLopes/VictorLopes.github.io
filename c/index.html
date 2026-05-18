@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Desafio até o Natal - Presente Surpresa</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #fff6ef, #ffe3cf);
+      min-height: 100vh;
+      padding: 24px;
+      color: #3d2b1f;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1000px;
+      background: white;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 8px;
+      font-size: 2rem;
+    }
+
+    .subtitle {
+      text-align: center;
+      margin-bottom: 24px;
+      color: #7a5a45;
+    }
+
+    .top-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .surprise-wrapper {
+      background: #fff7f1;
+      border-radius: 24px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      -webkit-user-select: none;
+      cursor: grab;
+    }
+
+    .surprise-wrapper:active {
+      cursor: grabbing;
+    }
+
+    .surprise-wrapper svg {
+      width: 100%;
+      max-width: 320px;
+      height: auto;
+    }
+
+    .progress-text {
+      margin-top: 16px;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .card {
+      background: #fff7f1;
+      padding: 18px;
+      border-radius: 18px;
+      text-align: center;
+    }
+
+    .card h2 {
+      font-size: 2rem;
+      margin-bottom: 6px;
+    }
+
+    .controls {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    button {
+      border: none;
+      padding: 14px;
+      border-radius: 14px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.2s ease;
+      font-size: 1rem;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    .checkin {
+      background: #ff8a3d;
+      color: white;
+    }
+
+    .fatigue {
+      background: #e0c4a8;
+    }
+
+    .period {
+      background: #ffb3c1;
+    }
+
+    .reset {
+      background: #444;
+      color: white;
+    }
+
+    .calendar {
+      margin-top: 32px;
+    }
+
+    .calendar h3 {
+      margin-bottom: 12px;
+    }
+
+    .days-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 10px;
+    }
+
+    .day {
+      padding: 12px;
+      border-radius: 12px;
+      background: #f5f5f5;
+      font-size: 0.9rem;
+    }
+
+    .done {
+      background: #c8f7c5;
+    }
+
+    .ignored {
+      background: #ffe0e0;
+    }
+
+    .weekend {
+      background: #ececec;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+    }
+
+    .legend-color {
+      width: 18px;
+      height: 18px;
+      border-radius: 6px;
+    }
+
+
+
+    @media (max-width: 768px) {
+      .top-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎄 Desafio Presente Surpresa 🎁</h1>
+    <p class="subtitle">
+      Cada treino deixa o presente surpresa mais visível. Quando estiver completo... surpresa garantida 🎁
+    </p>
+
+    <div class="top-grid">
+      <div class="surprise-wrapper">
+        <svg width="320" height="320" viewBox="0 0 300 300">
+          <defs>
+            <clipPath id="giftClip">
+              <path d="M150 90 C100 30, 70 80, 135 90 Z M150 90 C200 30, 230 80, 165 90 Z" />
+              <circle cx="150" cy="90" r="14" />
+              <rect x="40" y="92" width="220" height="35" rx="8" />
+              <rect x="50" y="127" width="200" height="145" rx="12" />
+            </clipPath>
+
+            <!-- O clipPath da barra de progresso em ascensão com onda líquida animada via JS -->
+            <clipPath id="progressClipBack">
+              <path id="wavePathBack" d="M -300 0 Q -225 -20, -150 0 Q -75 20, 0 0 Q 75 -20, 150 0 Q 225 20, 300 0 Q 375 -20, 450 0 Q 525 20, 600 0 L 600 400 L -300 400 Z" />
+            </clipPath>
+
+            <clipPath id="progressClip">
+              <path id="wavePath" d="M -300 0 Q -225 -15, -150 0 Q -75 15, 0 0 Q 75 -15, 150 0 Q 225 15, 300 0 Q 375 -15, 450 0 Q 525 15, 600 0 L 600 400 L -300 400 Z" />
+            </clipPath>
+          </defs>
+
+          <!-- Silhueta escura do presente -->
+          <g fill="#222">
+            <path d="M150 90 C100 30, 70 80, 135 90 Z M150 90 C200 30, 230 80, 165 90 Z" />
+            <circle cx="150" cy="90" r="14" />
+            <rect x="40" y="92" width="220" height="35" rx="8" />
+            <rect x="50" y="127" width="200" height="145" rx="12" />
+          </g>
+
+          <!-- Interrogação base (branca sobre a silhueta) -->
+          <text x="150" y="225" text-anchor="middle" font-size="90" font-weight="bold" fill="#ffffff" opacity="0.95" style="filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.25));">
+            ?
+          </text>
+
+          <!-- Camada revelada pelo progresso -->
+          <g clip-path="url(#progressClipBack)">
+            <!-- Preenchimento de fundo (líquido mais claro e profundo) -->
+            <rect x="0" y="0" width="300" height="300" fill="#ff7a8a" clip-path="url(#giftClip)" />
+          </g>
+
+          <g clip-path="url(#progressClip)">
+            <!-- Preenchimento colorido do presente -->
+            <rect x="0" y="0" width="300" height="300" fill="#ff4757" clip-path="url(#giftClip)" />
+
+            <!-- Interrogação preenchida em vermelho escuro -->
+            <text x="150" y="225" text-anchor="middle" font-size="90" font-weight="bold" fill="#ffe3cf" style="filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.25));">
+              ?
+            </text>
+          </g>
+
+          <!-- Grupo de Partículas (gotas de líquido) -->
+          <g id="particlesGroup" clip-path="url(#giftClip)"></g>
+
+          <text x="150" y="295" text-anchor="middle" font-size="18" fill="#444" font-weight="bold">
+            Presente em formação 🎁
+          </text>
+        </svg>
+
+        <div class="progress-text" id="progressText">
+          0% completo
+        </div>
+      </div>
+
+      <div>
+        <div class="stats">
+          <div class="card">
+            <h2 id="validDays">0</h2>
+            <p>Dias válidos</p>
+          </div>
+
+          <div class="card">
+            <h2 id="completedDays">0</h2>
+            <p>Check-ins</p>
+          </div>
+
+          <div class="card">
+            <h2 id="remainingDays">0</h2>
+            <p>Faltando</p>
+          </div>
+
+          <div class="card">
+            <h2 id="goalDate">25/12</h2>
+            <p>Meta final</p>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button class="checkin" onclick="addCheckin()">✅ Check-in de hoje</button>
+          <button class="fatigue" onclick="markFatigue()">😴 Dia de fadiga</button>
+          <button class="period" onclick="markPeriod()">🌸 Período menstrual</button>
+          <button class="reset" onclick="resetAll()">♻️ Resetar</button>
+        </div>
+
+        <div style="margin-top:20px;background:#fff7f1;padding:16px;border-radius:18px;">
+          <h3 style="margin-bottom:10px;">🔐 Backup do progresso</h3>
+
+          <textarea
+            id="hashOutput"
+            readonly
+            placeholder="O hash do progresso aparecerá aqui"
+            style="width:100%;min-height:90px;padding:12px;border-radius:12px;border:1px solid #ddd;resize:vertical;"
+          ></textarea>
+
+          <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">
+            <button class="checkin" onclick="copyHash()">📋 Copiar hash</button>
+            <button class="fatigue" onclick="loadFromHash()">📥 Restaurar hash</button>
+          </div>
+
+          <p style="margin-top:10px;font-size:0.9rem;color:#6d5848;">
+            Depois de cada check-in, um hash é atualizado automaticamente.
+            Ela pode te enviar esse código para validação ou recuperar o progresso depois.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="calendar">
+      <h3>Calendário do desafio</h3>
+      <div class="days-grid" id="daysGrid"></div>
+
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-color" style="background:#c8f7c5"></div>
+          Check-in concluído
+        </div>
+
+        <div class="legend-item">
+          <div class="legend-color" style="background:#ffe0e0"></div>
+          Fadiga / Menstrual / Feriado
+        </div>
+
+        <div class="legend-item">
+          <div class="legend-color" style="background:#ececec"></div>
+          Final de semana
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ==========================================
+    // CONFIGURAÇÕES DO DESAFIO
+    // ==========================================
+    const START_DATE = '2026-05-17'; // Formato AAAA-MM-DD
+    const END_DATE = '2026-12-25';    // Formato AAAA-MM-DD
+    const STORAGE_KEY = 'desafio_presente_surpresa';
+    // ==========================================
+
+    const brazilHolidays = [
+      '2026-01-01',
+      '2026-02-16',
+      '2026-02-17',
+      '2026-04-03',
+      '2026-04-21',
+      '2026-05-01',
+      '2026-06-04',
+      '2026-09-07',
+      '2026-10-12',
+      '2026-11-02',
+      '2026-11-15',
+      '2026-12-25'
+    ];
+
+    function parseLocalDate(dateString) {
+      const [year, month, day] = dateString.split('-').map(Number);
+      return new Date(year, month - 1, day, 0, 0, 0, 0);
+    }
+
+    const startDate = parseLocalDate(START_DATE);
+    const targetDate = parseLocalDate(END_DATE);
+
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
+      completed: [],
+      fatigue: [],
+      period: []
+    };
+
+    function formatDate(date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, '0');
+      const d = String(date.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    }
+
+    function isWeekend(date) {
+      return date.getDay() === 0 || date.getDay() === 6;
+    }
+
+    function isHoliday(date) {
+      return brazilHolidays.includes(formatDate(date));
+    }
+
+    function save() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+      generateHash();
+    }
+
+    function generateHash() {
+      const payload = {
+        version: 1,
+        generatedAt: new Date().toISOString(),
+        data: saved
+      };
+
+      const json = JSON.stringify(payload);
+      const encoded = btoa(unescape(encodeURIComponent(json)));
+
+      document.getElementById('hashOutput').value = encoded;
+
+      return encoded;
+    }
+
+    function loadFromHash() {
+      const hash = prompt('Cole o hash de recuperação:');
+
+      if (!hash) return;
+
+      try {
+        const decoded = decodeURIComponent(escape(atob(hash)));
+        const parsed = JSON.parse(decoded);
+
+        if (!parsed.data) {
+          throw new Error('Hash inválido');
+        }
+
+        saved.completed = parsed.data.completed || [];
+        saved.fatigue = parsed.data.fatigue || [];
+        saved.period = parsed.data.period || [];
+
+        save();
+        generateHash();
+        updateUI();
+
+        alert('✅ Progresso restaurado com sucesso!');
+      } catch (error) {
+        alert('❌ Não foi possível restaurar esse hash.');
+      }
+    }
+
+    async function copyHash() {
+      const hash = document.getElementById('hashOutput').value;
+
+      if (!hash) {
+        alert('Nenhum hash disponível ainda.');
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(hash);
+        alert('📋 Hash copiado!');
+      } catch {
+        alert('Não foi possível copiar automaticamente.');
+      }
+    }
+
+    function getAllChallengeDays() {
+      const days = [];
+      let current = new Date(startDate);
+
+      while (current <= targetDate) {
+        const key = formatDate(current);
+
+        const excluded =
+          isWeekend(current) ||
+          isHoliday(current) ||
+          saved.fatigue.includes(key) ||
+          saved.period.includes(key);
+
+        days.push({
+          date: new Date(current),
+          key,
+          excluded
+        });
+
+        current.setDate(current.getDate() + 1);
+      }
+
+      return days;
+    }
+
+    function updateUI() {
+      const days = getAllChallengeDays();
+
+      const validDays = days.filter(d => !d.excluded);
+      const completedDays = validDays.filter(d =>
+        saved.completed.includes(d.key)
+      );
+
+      const progress = validDays.length > 0
+        ? completedDays.length / validDays.length
+        : 0;
+
+      const percentage = Math.round(progress * 100);
+
+      document.getElementById('validDays').innerText = validDays.length;
+      document.getElementById('completedDays').innerText = completedDays.length;
+      document.getElementById('remainingDays').innerText = validDays.length - completedDays.length;
+      document.getElementById('progressText').innerText = `${percentage}% completo`;
+
+      const formattedGoal = targetDate.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+      document.getElementById('goalDate').innerText = formattedGoal;
+
+      window.waveTargetY = 270 - (240 * progress);
+
+      renderCalendar(days);
+    }
+
+    function renderCalendar(days) {
+      const grid = document.getElementById('daysGrid');
+      grid.innerHTML = '';
+
+      days.forEach(day => {
+        const div = document.createElement('div');
+        div.classList.add('day');
+
+        const formatted = day.date.toLocaleDateString('pt-BR');
+
+        if (saved.completed.includes(day.key)) {
+          div.classList.add('done');
+        } else if (day.excluded) {
+          div.classList.add('ignored');
+        }
+
+        if (isWeekend(day.date)) {
+          div.classList.add('weekend');
+        }
+
+        let status = 'Treino';
+
+        if (saved.completed.includes(day.key)) {
+          status = '✅ Check-in';
+        } else if (saved.fatigue.includes(day.key)) {
+          status = '😴 Fadiga';
+        } else if (saved.period.includes(day.key)) {
+          status = '🌸 Menstrual';
+        } else if (isHoliday(day.date)) {
+          status = '🎉 Feriado';
+        } else if (isWeekend(day.date)) {
+          status = '🏖️ Final de semana';
+        }
+
+        div.innerHTML = `
+          <strong>${formatted}</strong><br>
+          ${status}
+        `;
+
+        grid.appendChild(div);
+      });
+    }
+
+    function todayKey() {
+      const now = new Date();
+      now.setHours(0,0,0,0);
+      return formatDate(now);
+    }
+
+    function addCheckin() {
+      const key = todayKey();
+
+      if (!saved.completed.includes(key)) {
+        saved.completed.push(key);
+      }
+
+      save();
+      updateUI();
+    }
+
+    function markFatigue() {
+      const key = todayKey();
+
+      if (!saved.fatigue.includes(key)) {
+        saved.fatigue.push(key);
+      }
+
+      save();
+      updateUI();
+    }
+
+    function markPeriod() {
+      const key = todayKey();
+
+      if (!saved.period.includes(key)) {
+        saved.period.push(key);
+      }
+
+      save();
+      updateUI();
+    }
+
+    function resetAll() {
+      const confirmed = confirm('Deseja realmente resetar o progresso?');
+
+      if (!confirmed) return;
+
+      localStorage.removeItem(STORAGE_KEY);
+      location.reload();
+    }
+
+    window.waveTargetY = 270;
+    updateUI();
+
+    // ==========================================
+    // ANIMAÇÃO LÍQUIDA — só ativa durante drag
+    // ==========================================
+    const wavePath = document.getElementById('wavePath');
+    const wavePathBack = document.getElementById('wavePathBack');
+
+    let waveOffset = 0;
+    let waveOffsetBack = 0;
+    let currentWaveY = 270;
+
+    // Física: velocidade horizontal e splash vertical
+    let waveVelocity = 0;   // px por frame de deslocamento da onda
+    let splashY = 0;        // deslocamento vertical extra (onda jogada)
+    let splashVelocity = 0;
+    let chaos = 0;          // amplitude extra da onda durante interação
+
+    // Controle do loop de animação
+    let animFrameId = null;
+    let isAnimating = false;
+
+    const surpriseWrapper = document.querySelector('.surprise-wrapper');
+
+    // Partículas
+    const particlesGroup = document.getElementById('particlesGroup');
+    const particles = [];
+
+    function spawnParticles(amount, baseY) {
+      for (let i = 0; i < amount; i++) {
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('r', 2 + Math.random() * 3);
+        circle.setAttribute('fill', Math.random() > 0.5 ? '#ff7a8a' : '#ff4757');
+        particlesGroup.appendChild(circle);
+        particles.push({
+          el: circle,
+          x: 60 + Math.random() * 180,
+          y: baseY + (Math.random() * 8 - 4),
+          vx: (Math.random() - 0.5) * 3 + waveVelocity * 0.15,
+          vy: -(Math.random() * 4 + 1),
+          life: 1.0,
+          decay: 0.015 + Math.random() * 0.025
+        });
+      }
+    }
+
+    // Garante que o loop está rodando
+    function ensureAnimating() {
+      if (!isAnimating) {
+        isAnimating = true;
+        animFrameId = requestAnimationFrame(animateWave);
+      }
+    }
+
+    // Verifica se ainda há movimento significativo
+    function hasSignificantMotion() {
+      return (
+        Math.abs(waveVelocity) > 0.08 ||
+        Math.abs(splashY) > 0.5 ||
+        Math.abs(splashVelocity) > 0.1 ||
+        chaos > 0.05 ||
+        particles.length > 0
+      );
+    }
+
+    let isDragging = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    function getPos(e) {
+      if (e.touches && e.touches.length > 0) {
+        return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }
+      return { x: e.clientX, y: e.clientY };
+    }
+
+    function startDrag(e) {
+      isDragging = true;
+      const pos = getPos(e);
+      lastX = pos.x;
+      lastY = pos.y;
+      // Sem impulso inicial aleatório — parte do repouso
+      ensureAnimating();
+    }
+
+    function moveDrag(e) {
+      if (!isDragging) return;
+      const pos = getPos(e);
+      const dx = pos.x - lastX;
+      const dy = pos.y - lastY;
+
+      // Sensibilidade reduzida para movimento mais lento e fluido
+      waveVelocity += dx * 0.18;
+      // Limita a velocidade máxima para manter fluidez
+      waveVelocity = Math.max(-18, Math.min(18, waveVelocity));
+
+      // Splash vertical suave ao arrastar para cima/baixo
+      if (Math.abs(dy) > 1) {
+        splashVelocity += dy * 0.06;
+        splashVelocity = Math.max(-6, Math.min(6, splashVelocity));
+      }
+
+      // Turbulência proporcional à velocidade do gesto
+      const speed = Math.sqrt(dx * dx + dy * dy);
+      chaos = Math.min(chaos + speed * 0.03, 4);
+
+      // Partículas apenas para gestos mais rápidos
+      if (speed > 6 && Math.random() > 0.5) {
+        spawnParticles(1, currentWaveY + splashY);
+      }
+
+      lastX = pos.x;
+      lastY = pos.y;
+    }
+
+    function endDrag() {
+      isDragging = false;
+      // O loop continua até o líquido parar naturalmente
+    }
+
+    surpriseWrapper.addEventListener('mousedown', startDrag);
+    surpriseWrapper.addEventListener('mousemove', moveDrag);
+    window.addEventListener('mouseup', endDrag);
+
+    surpriseWrapper.addEventListener('touchstart', startDrag, { passive: true });
+    surpriseWrapper.addEventListener('touchmove', moveDrag, { passive: true });
+    window.addEventListener('touchend', endDrag);
+
+    function animateWave() {
+      // Desaceleração suave (mais lenta que antes)
+      waveVelocity *= 0.97;
+      chaos      *= 0.96;
+
+      // Atualiza posição horizontal da onda
+      if (Math.abs(waveVelocity) > 0.01) {
+        waveOffset     = (waveOffset     + waveVelocity)        % 300;
+        waveOffsetBack = (waveOffsetBack - waveVelocity * 0.35) % 300;
+      }
+
+      // Física vertical do splash (gravidade)
+      if (splashY < 0 || splashVelocity < 0) {
+        splashVelocity += 0.3; // gravidade mais suave
+        splashY        += splashVelocity;
+        if (splashY > 0) { splashY = 0; splashVelocity = 0; }
+      }
+
+      // Interpolação suave até o nível alvo (progresso)
+      currentWaveY += (window.waveTargetY - currentWaveY) * 0.04;
+
+      // Amplitude da onda cresce com velocidade e caos
+      const scaleY     = 1   + chaos * 0.25  + Math.abs(waveVelocity) * 0.008;
+      const scaleYBack = 1.1 + chaos * 0.35  + Math.abs(waveVelocity) * 0.012;
+
+      if (wavePath) {
+        wavePath.setAttribute('transform',
+          `translate(${waveOffset}, ${currentWaveY + splashY}) scale(1, ${scaleY})`);
+      }
+      if (wavePathBack) {
+        wavePathBack.setAttribute('transform',
+          `translate(${waveOffsetBack}, ${currentWaveY + splashY * 0.7 - 4}) scale(1, ${scaleYBack})`);
+      }
+
+      // Atualiza partículas
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.vy  += 0.35; // gravidade suave
+        p.vx  *= 0.97; // amortecimento horizontal
+        p.x   += p.vx;
+        p.y   += p.vy;
+        p.life -= p.decay;
+        if (p.life <= 0) {
+          p.el.remove();
+          particles.splice(i, 1);
+        } else {
+          p.el.setAttribute('cx', p.x);
+          p.el.setAttribute('cy', p.y);
+          p.el.setAttribute('opacity', p.life);
+        }
+      }
+
+      // Continua o loop apenas se houver movimento ou drag ativo
+      if (isDragging || hasSignificantMotion()) {
+        animFrameId = requestAnimationFrame(animateWave);
+      } else {
+        // Para o loop — economiza CPU quando o líquido estiver em repouso
+        isAnimating = false;
+        animFrameId = null;
+      }
+    }
+
+    // Renderiza a posição inicial estática (sem animar)
+    (function renderStatic() {
+      currentWaveY = window.waveTargetY;
+      if (wavePath)     wavePath.setAttribute('transform',     `translate(0, ${currentWaveY}) scale(1, 1)`);
+      if (wavePathBack) wavePathBack.setAttribute('transform', `translate(0, ${currentWaveY - 4}) scale(1, 1.1)`);
+    })();
+  </script>
+</body>
+</html>
